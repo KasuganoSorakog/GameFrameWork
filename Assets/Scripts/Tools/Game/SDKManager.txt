@@ -1,0 +1,188 @@
+/** 
+ *Copyright(C) 2021 by DefaultCompany 
+ *All rights reserved. 
+ *作者:         Sora 
+ *Unity版本：   2019.4.16f1 
+ *日期:         2022-01-24 
+ *说明:    
+**/
+using com.adjust.sdk;
+using Facebook.Unity;
+using GameAnalyticsSDK;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using LionStudios.Suite.Analytics;
+
+public enum LionLogEvent
+{
+    LevelStart,                     //关卡开始
+    LevelComplete,                  //关卡完成
+    LevelFail,                      //关卡失败
+    LevelRestart                    //关卡重置
+}
+
+/// <summary>
+/// 使用案例：
+/// 1.初始化
+///  SDKManager.Instance.SDKInit();
+/// 2.打点
+/// SDKManager.Instance.LogLevelInfo_GA(GAProgressionStatus.Start, 1, 0.ToString());
+/// SDKManager.Instance.LogLevelInfo_Lion(LionLogEvent.LevelStart,1, 0);
+/// </summary>
+public class SDKManager : MonoBehaviour, IGameAnalyticsATTListener
+{
+    private static SDKManager instance;
+
+    public static SDKManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                var obj = new GameObject("SDKManager");
+                instance = obj.AddComponent<SDKManager>();
+                DontDestroyOnLoad(obj);
+            }
+            return instance;
+        }
+    }
+
+    //在游戏开始前，执行调用
+    public void SDKInit()
+    {
+        //Lion初始化(不清楚是不是初始化，加了就报错)
+        LionAnalytics.GameStart();
+        //ApplovinMax初始化
+        InitApplovinMAX();
+        //GA初始化
+        InitGA();
+        //Adjust初始化
+        AdjustInit();
+        //FB初始化
+        FacebookInit();
+
+    }
+
+    #region ApplovinMAX初始化
+    public void InitApplovinMAX() {
+        MaxSdkCallbacks.OnSdkInitializedEvent += (MaxSdkBase.SdkConfiguration sdkConfiguration) => {
+            // AppLovin SDK is initialized, start loading ads
+        };
+        MaxSdk.SetSdkKey("pIZT0gTB19HmoBhtMBRD2fXDkHJC9HryZOUa4yn552suDTlakAomrJzZbGmlTbg6_Ah46SACU05iTqHG_40rN-");
+        MaxSdk.InitializeSdk();
+    }
+    #endregion
+
+    #region Lion Ang
+    public void LogLevelInfo_Lion(LionLogEvent lionLog, int level, int attempNum, int? score =null)
+    {
+        switch (lionLog)
+        {
+            case LionLogEvent.LevelStart:
+                LionAnalytics.LevelStart(level, attempNum, score);
+                break;
+            case LionLogEvent.LevelComplete:
+                LionAnalytics.LevelComplete(level, attempNum, score);
+                break;
+            case LionLogEvent.LevelFail:
+                LionAnalytics.LevelFail(level, attempNum, score);
+                break;
+            case LionLogEvent.LevelRestart:
+                LionAnalytics.LevelRestart(level, attempNum, score);
+                break;
+            default:
+                break;
+        }
+    }
+
+    #endregion
+
+    #region GameAnalytics(GA)打点
+    public void InitGA()
+    {
+        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            GameAnalytics.RequestTrackingAuthorization(this);
+        }
+        else
+        {
+            GameAnalytics.Initialize();
+        }
+    }
+    public void GameAnalyticsATTListenerNotDetermined()
+    {
+        GameAnalytics.Initialize();
+    }
+    public void GameAnalyticsATTListenerRestricted()
+    {
+        GameAnalytics.Initialize();
+    }
+    public void GameAnalyticsATTListenerDenied()
+    {
+        GameAnalytics.Initialize();
+    }
+    public void GameAnalyticsATTListenerAuthorized()
+    {
+        GameAnalytics.Initialize();
+    }
+
+    /// <summary>
+    /// GA 事件打点函数
+    /// </summary>
+    /// <param name="levelStatus">游戏进程，开始、成功、失败等</param>
+    /// <param name="level">当前关卡</param>
+    /// <param name="otherParameter">其他参数，无特殊要求可不填</param>
+    public void LogLevelInfo_GA(GAProgressionStatus levelStatus, int level, string otherParameter = null)
+    {
+        GameAnalytics.NewProgressionEvent(levelStatus, "Level" + level.ToString("000"), otherParameter);
+    }
+
+    //自定义打点
+    public void LogOtherInfo_GA(string _eventName, float _eventValue) {
+        GameAnalytics.NewDesignEvent(_eventName, _eventValue);
+    }
+
+
+    #endregion
+
+
+    #region Adjust
+
+#if UNIYT_EDIOR || UNITY_ANDROID
+
+    //TODO： 需要根据项目情况修改
+    private string adjustToken = "yo25n9ahsutc";
+
+#elif IOS
+    private string AdjustToken = "";
+
+#endif
+    private void AdjustInit()
+    {
+        var adjustConfig = new AdjustConfig(
+           adjustToken,
+           AdjustEnvironment.Production, // Adjust执行环境， 选择 Sandbox 选项时可以快速在Adjust后台看到接入情况
+           true
+       );
+        adjustConfig.setLogLevel(AdjustLogLevel.Info); // AdjustLogLevel.Suppress to disable logs
+        adjustConfig.setSendInBackground(true);
+        new GameObject("Adjust").AddComponent<Adjust>(); // do not remove or rename
+        // Adjust.addSessionCallbackParameter("foo", "bar"); // if requested to set session-level parameters
+        //adjustConfig.setAttributionChangedDelegate((adjustAttribution) => {
+        //  Debug.LogFormat("Adjust Attribution Callback: ", adjustAttribution.trackerName);
+        //});
+
+        Adjust.start(adjustConfig);
+    }
+    #endregion
+
+    #region FB
+
+    //在unity面板上，通过 “Facebook -> Edit Settings” ，调出FacebookSettings面板，按照接入文档填入 “App Name” 和 “Facebook App Id”
+    private void FacebookInit()
+    {
+        FB.Init();
+    }
+    #endregion
+}

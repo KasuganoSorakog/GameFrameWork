@@ -1,0 +1,36 @@
+2022.5.15日更新    Sora          657971682@qq.com,
+1. 升级DotweenPro,  现在可以使用DotweenAnimation动画库了。 直接挂载即可使用。
+
+2. 增加Sigleton单例基类， 将所有Manager变成了单例，可以在EventManager中注册各管理器事件调用。
+
+3. 修改的FSM状态机，在StateMachine.cs中增加了状态字典，使用时，只需要创建状态和添加字典即可。(不需要再在物体本身创建字典)
+
+4. 修改 m_命名， 变量名开头通通小写表示，使用驼峰命名法。
+
+5. 增加AB包的资源管理与卸载。（核心）
+
+6. 增加AB包名自动转成常量的文件 ， 现可以 ABType.xxxx  获取AB包名，从而进行获取AB包内容。（核心）
+
+7. 增加了只读标签属性。  在变量上一行添加 [ReadOnly] 即可将变量变成只读状态。
+
+8. 将游戏的状态暴露在了Inspector面板上。
+
+9. 内置了SDKManaegr,  可通过SDKManager.instance.xxx 执行打点功能。以及其他一些SDK功能。
+
+10.增加了 JoystickManager,  将摇杆的功能与 UI的功能单独分离了出来。
+
+11.原EventType与Unity内置EventType命名冲突， 现改名 GameEventType, 并将事件类型分为  NormalEventType 和 UIEventType;
+
+12.增加帧事件添加器 AnimationClipAdder, 可直接给动画机添加帧事件。 AnimationClipAdder.Add();
+
+-----------------------------------------------------------------------------------------------------------------
+
+2022.9.16日更新      Sora          657971682@qq.com
+1.去除UIPanel中的BasicPanelData的UI数据存储与获取方案， 获取数据直接调用 DataManager.Instance 
+
+2. UIAniamtion加入延时功能；略微修改 "数值跳动" 功能;
+
+3.改良VisiCon扇形检测方案；使其可以丢委托方法进去
+
+4.修复AnimationEventAdder可能存在的隐患；
+

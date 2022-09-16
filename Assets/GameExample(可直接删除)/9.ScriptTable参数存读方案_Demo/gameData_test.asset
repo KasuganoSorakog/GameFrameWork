@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91446725dde9d994d9c3acd9af4970cf, type: 3}
+  m_Name: gameData_test
+  m_EditorClassIdentifier: 
+  weaponsData:
+  - name: "\u65A7\u5934"
+    Level_Pricel: 0a00000064000000e803000088130000
+  - name: "\u9550\u5B50"
+    Level_Pricel: 0a00000064000000e803000088130000
+  - name: "\u5251"
+    Level_Pricel: 0a000000640000000a00000088130000
+  platformData: []
+  trainInformationData: []
+  trainUp_AddGetGold: 
+  treasures: []
+  gameResouceSell:
+    wood_Price_ExchangeRate: 0
+    stone_Price_ExchangeRate: 0
+    Iron_Ore_Price_ExchangeRate: 0
+    Coal_Mine_Price_ExchangeRate: 0

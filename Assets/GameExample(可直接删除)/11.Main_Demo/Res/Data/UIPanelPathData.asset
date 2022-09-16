@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aab328a520644d940aaef73a13e2e2b4, type: 3}
+  m_Name: UIPanelPathData
+  m_EditorClassIdentifier: 
+  panelData:
+  - panelPre: {fileID: 6216807271978011802, guid: fe3db8dcbfcc37549aca70955c584781,
+      type: 3}
+    panelName: BasicPanel
+    path: UIPanel/BasicPanel
+  - panelPre: {fileID: 6216807271978011802, guid: ba6d91767014fed4798cdb3dc8da0826,
+      type: 3}
+    panelName: FailPanel
+    path: UIPanel/FailPanel
+  - panelPre: {fileID: 6216807271978011802, guid: f9739d99636607d41b8de6327578ebf8,
+      type: 3}
+    panelName: MyPanel
+    path: UIPanel/MyPanel
+  - panelPre: {fileID: 5000254963965797464, guid: 4844d343cd0afc1448f7f5962dbe3647,
+      type: 3}
+    panelName: StartPanel
+    path: UIPanel/StartPanel
+  - panelPre: {fileID: 6216807271978011802, guid: 59873600bdcd41441b71137ee72c0dbd,
+      type: 3}
+    panelName: WinPanel
+    path: UIPanel/WinPanel
